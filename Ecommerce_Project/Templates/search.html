@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+{{ products.description|truncatewords:155 }}
+{% endblock %}
+
+{% block title %}
+{% if product %}
+{{ product.name }} - shop.getin
+{% else %}
+Happy shopping!!! - shop.getin
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div>
+    <p class="text-center search-text">Search results for:<b>"{{query}}"</b></p>
+</div>
+<div class="container">
+    <div class="row mx_auto">
+        {% for p in products %}
+        <div class="bottom-margin col-9 col-sm-12 col-md-4 col-lg-4">
+            <div class="card text-center" style="min-width:18rem;">
+                <a href="{{p.get_url}}"><img class="card-img-top product-image" src="{{p.image.url}}" alt="{{p.name}}"></a>
+            </div>
+            <div class="card-body">
+                <h4>{{p.name}}</h4>
+                <p>{{p.price}}</p>
+            </div>
+        </div>
+        {% empty %} <!--If no results found-->
+        <div class="row mx_auto">
+            <p class="text-center search-text">0 results found</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

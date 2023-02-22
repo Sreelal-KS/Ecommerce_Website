@@ -1,0 +1,23 @@
+.banner-image{
+height: 500px;
+width: 1250px;
+}
+
+/***
+.category-image{
+height: 350px;
+width: 400px;
+}
+***/
+
+.product-image{
+height: 300px;
+width: 300px;
+}
+
+.shop-logo{
+height: 150px;
+width: 150px;
+margin: 0px;
+padding: 0px;
+}

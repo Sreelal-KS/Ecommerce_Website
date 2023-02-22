@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+{% if category %}
+{{ category.description|truncatewords:155 }}
+{% else %}
+Welcome to shop.getin where you can spend your money with happiness
+{% endif %}
+{% endblock %}
+
+{% block title %}
+{% if category %}
+{{ category.name }} - shop.getin
+{% else %}
+Shop new things here! - shop.getin
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<!----- Category ----->
+
+{% if category %}
+<div>
+    <div class="row row-class">
+        <div class="mx_auto">
+            <a href="{% url 'Ecommerce_App:AllProductsCategory' %}">Our product collections</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="mx_auto">
+    {% if category %}
+    <img class="category-image" src="{{category.image.url}}" alt="{{category.name}}">
+</div><br>
+<div>
+    <h1 class="text-center my_title">{{category.name}}</h1>
+    <p class="text-justify">{{category.description}}</p>
+</div>
+{% else %} <!--If category products not available-->
+<div>
+    <img class="category-image banner-image-padding" src="{% static 'img/banner2.png' %}" alt="Banner">
+</div><br>
+<div>
+    <h1 class="text-center my-title">Our product Collections</h1>
+    <p class="text-justify">shop.getin, is an American multinational technology company focusing on e-commerce,
+        cloud computing, online advertising, digital streaming, and artificial intelligence. It has been referred
+        to as "one of the most influential economic and cultural forces in the world",[5] and is one of the world's
+        most valuable brands.[6] It is one of the Big Five American information technology companies, alongside
+        Alphabet (Google), Apple, Meta (Facebook), and Microsoft.
+    </p>
+</div><br><br>
+{% endif %}
+
+<!--- Products --->
+<div class="container">
+    <div class="row mx_auto">
+        {% for p in product.object_list %}
+        <div class="bottom-margin col-9 col-sm-12 col-md-4 col-lg-4">
+            <div class="card text-center" style="min-width:18rem;">
+                <a href="{{p.get_url}}"><img class="card-img-top product-image" src="{{p.image.url}}" alt="{{p.name}}"></a>
+            </div>
+            <div class="card-body">
+                <h4>{{p.name}}</h4>
+                <p>{{p.price}}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mx_auto">
+        {% if product.paginator.num_pages > 1 %}
+          <hr>
+        <div class="text-center">
+            {% for pg in product.paginator.page_range %}
+            <a href="?page={{pg}}" class="btn btn-light btn-sm
+            {% if product.number == pg %} active {% endif %}">{{pg}}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <br>
+</div>
+
+{% endblock %}
+

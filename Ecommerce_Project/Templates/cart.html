@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+Shopping cart page - shop.getin
+{% endblock %}
+
+{% block title %}
+Happy shopping!!! - shop.getin
+{% endblock %}
+
+{% block content %}
+<!---If the cart is empty --->
+{% if not cart_items %}
+<div>
+    <div class="text-center">
+        <br>
+        <h1 class="text-center my_title">Your cart is empty</h1>
+        <br>
+        <p class="text-center">Shop items <a href="{% url 'Ecommerce_App:AllProductsCategory' %}"></a></p>
+    </div>
+</div>
+{% else %}
+<div>
+    <div class="text-center">
+        <br>
+        <h1 class="text-center">Your shopping cart</h1>
+        <br>
+    </div>
+    <div class="row mx-auto">
+        <div class="col-6 col-sm-12 col-md-12 col-lg-6 text-center">
+            <table class="table my-custom-table">
+                <thead class="custom-table-head">
+                <tr>
+                    <th colspan="5">
+                        Your Items
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for cart_item in cart_items %}
+                <tr>
+                    <td>
+                        <a href="cart_item.product.get_absolute_url">
+                            <img src="{{cart_item.product.image.url}}" class="float-left rounded custom-image"></a>
+                    </td>
+                    <td class="text-left">
+                        {{cart_item.product.name}}<br>
+                        Product Code: {{cart_item.product.id}}<br>
+                        Price: <b>₹</b>{{cart_item.product.price}}<br>
+                        Quantity: {{cart_item.quantity}}
+                    </td>
+                    <td>
+                        Total price: <b>₹</b> {{cart_item.sub_total}}
+                    </td>
+                    {% if cart_item.quantity < cart_item.product.stock %}
+                    <td>
+                        <a href="{% url 'Cart_App:add_cart' cart_item.product.id %}" class="custom-a"><i
+                                class="fa-solid fa-circle-plus custom-icon"></i></a>
+                        &nbsp;<a href="{% url 'Cart_App:Cart_Remove' cart_item.product.id %}" class="custom-a"><i
+                            class="fa-solid fa-circle-minus custom-icon"></i></a>
+                        &nbsp;<a href="{% url 'Cart_App:Cart_Delete' cart_item.product_id %}" class="custom-icon"><i
+                            class="fa-solid fa-trash custom-icon"></i></a>
+                    </td>
+                    {% else %}
+                    <td>
+
+                        &nbsp;<a href="{% url 'Cart_App:Cart_Remove' cart_item.product.id %}" class="custom-a"><i
+                            class="fa-solid fa-circle-minus custom-icon"></i></a>
+                        &nbsp;<a href="{% url 'Cart_App:Cart_Delete' cart_item.product_id %}" class="custom-icon"><i
+                            class="fa-solid fa-trash custom-icon"></i></a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-6 col-sm-12 col-md-12 col-lg-6 text-center">
+            <table class="table my-custom-table">
+                <thead class="custom-table-head">
+                <tr>
+                    <th>
+                        Checkout
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        Please review your shopping cart items before proceeding the order payment
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left">
+                            Your total amount is : <strong>{{total}}</strong>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="mx-auto">
+                <a href="{% url 'Ecommerce_App:AllProductsCategory' %}"
+                   class="btn btn-secondary btn-block custom-button">Continue shopping</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

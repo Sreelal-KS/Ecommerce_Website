@@ -1,0 +1,3 @@
+<!--    {% for cat in links %}-->
+<!--    <li><a href="{{ cat.get_url }}"></a></li>-->
+<!--    {% endfor %}-->
